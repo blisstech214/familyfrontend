@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-
 const GalleryUpdate = ({ image, onUpdate, onClose }) => {
   const [alt, setAlt] = useState(image.alt);
   const [category, setCategory] = useState(image.category);

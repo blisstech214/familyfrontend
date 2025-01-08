@@ -141,7 +141,7 @@ const FamilyMembers = ({ id }) => {
                         <strong>Gender:</strong> {customer.gender}
                       </div>
                       <div>
-                        <strong>Marital Status:</strong>{" "}
+                        <strong>Marital Status:</strong>
                         {customer.maritalStatus}
                       </div>
                       <div>
