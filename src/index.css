@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes autoUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeftRight {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.auto-up-down {
+  animation: autoUpDown 2s ease-in-out infinite;
+}
+
+.slide-left-right {
+  animation: slideLeftRight 2s ease-in-out infinite;
+}
+.popup-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-5deg); /* Diagonal effect */
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.family-form,
+.family-member-form {
+  width: 300px; /* Set width for each form */
+}
+
+button {
+  margin-top: 10px;
+}
+@media (max-width: 768px) {
+  div[style*="form"] {
+    padding: 20px; /* Reduce padding for small screens */
+  }
+  div[style*="heading"] {
+    font-size: 20px; /* Smaller heading for mobile */
+  }
+  div[style*="input"] {
+    font-size: 14px; /* Smaller input font size */
+  }
+  div[style*="button"] {
+    font-size: 14px; /* Adjust button size */
+  }
+}
