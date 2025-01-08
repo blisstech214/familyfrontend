@@ -17,7 +17,7 @@ function SectionD() {
   const fetchCards = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/eventconnects"
+        `${process.env.REACT_APP_API_BASE_URL}/eventconnects`
       );
       console.log("Fetched data:", response.data);
 
