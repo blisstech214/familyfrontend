@@ -58,7 +58,7 @@ function BannerUpdate({ bannerId, onClose }) {
 
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/updateBanner/${bannerId.bannerId}/item/${bannerId.itemId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/${bannerId.bannerId}/item/${bannerId.itemId}`,
         updatedData,
         {
           headers: {

@@ -14,7 +14,9 @@ function ShowBannerDetails() {
 
   const fetchBanners = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/banners");
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}/banners`
+      );
 
       if (Array.isArray(response.data.data)) {
         setBanners(response.data.data); // Adjust to match the structure of your API response
@@ -75,7 +77,7 @@ function ShowBannerDetails() {
                   <img
                     src={
                       item.image
-                        ? `http://localhost:4000/api${item.image}`
+                        ? `${process.env.REACT_APP_API_BASE_URL}${item.image}`
                         : "/path/to/default-image.jpg"
                     }
                     alt={item.titles || "Default Title"}

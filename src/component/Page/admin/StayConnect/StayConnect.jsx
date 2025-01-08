@@ -49,7 +49,7 @@ function StayConnect() {
 
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/eventconnect`,
+        `${process.env.REACT_APP_API_BASE_URL}/eventconnect`,
         { data: formattedData },
         { headers: { "Content-Type": "application/json" } }
       );

@@ -34,7 +34,7 @@ function StayUpdate({ editingCard, onClose }) {
     console.log(formData, "data fetch");
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/eventconnect/${editingCard.cardId}/item/${editingCard.itemId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/eventconnect/${editingCard.cardId}/item/${editingCard.itemId}`,
         formData
       );
       if (response.data?.data) {

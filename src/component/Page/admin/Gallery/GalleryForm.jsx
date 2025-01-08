@@ -16,7 +16,7 @@ const GalleryForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/gallery", // Ensure this is the correct backend route
+        `${process.env.REACT_APP_API_BASE_URL}/gallery`, // Ensure this is the correct backend route
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
