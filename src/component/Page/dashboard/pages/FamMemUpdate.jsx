@@ -22,6 +22,26 @@ function FamMemUpdate(props) {
   const [member, setMember] = useState(initialMem);
   const [isFormVisible, setIsFormVisible] = useState(true); // State to control form visibility
 
+  // Handle image file input change
+
+  useEffect(() => {
+    const fetchMemberData = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_BASE_URL}/getById/${id}`
+        ); // Replace with your actual endpoint
+        const imageUrl = `${process.env.REACT_APP_API_BASE_URL}${res.data.data.image}`; // Assuming the base URL is set in your environment variables
+        setMember({
+          ...res.data.data,
+          image: imageUrl, // Set the full image URL
+        });
+      } catch (error) {
+        console.error("Error fetching member data:", error);
+      }
+    };
+
+    fetchMemberData();
+  }, [id]);
   // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,57 +50,51 @@ function FamMemUpdate(props) {
       [name]: value,
     }));
   };
-
-  // Handle image file input change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setMember((prevState) => ({
-          ...prevState,
-          image: reader.result, // Store the image data URL
-        }));
-      };
-      reader.readAsDataURL(file); // Convert the image to base64 format
+      // Append the file directly to the formData
+      setMember((prevState) => ({
+        ...prevState,
+        image: file, // Store the file object instead of the base64 string
+      }));
     }
   };
 
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_BASE_URL}/getById/${id}`)
-      .then((res) => {
-        if (res && res.data && res.data.data) {
-          setMember(res.data.data); // Ensure you handle valid responses only
-          console.log("Fetched Data:", res.data.data);
-        } else {
-          console.error("Invalid API response:", res.data.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching family member:", error);
-      });
-  }, [id]); // Add customerId to the dependency array
-
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("familyId", member.familyId);
+    formData.append("name", member.name);
+    formData.append("dob", member.dob);
+    formData.append("gender", member.gender);
+    formData.append("maritalStatus", member.maritalStatus);
+    formData.append("education", member.education);
+    formData.append("employmentStatus", member.employmentStatus);
+    formData.append("contactEmail", member.contactEmail);
+    formData.append("contactPhone", member.contactPhone);
+    formData.append("occupation", member.occupation);
+
+    // If there's an image, append it as a file object
+    if (member.image) {
+      formData.append("image", member.image); // Use the file object
+    }
+
     axios
       .put(
         `${process.env.REACT_APP_API_BASE_URL}/familyMemUpdate/${id}`,
-        member
+        formData
       )
       .then((res) => {
         if (res.status === 200) {
           alert("Form submitted successfully!");
           console.log("Updated Data:", res.data.data);
 
-          // Hide the form and show updated information in the UI
           setIsFormVisible(false);
 
-          // Optionally: Update parent component state or context to reflect the updated data immediately
           if (props.onUpdate) {
-            props.onUpdate(res.data.data); // Assuming the parent component has an `onUpdate` callback
+            props.onUpdate(res.data.data);
           }
         } else {
           alert("Failed to submit form. Please try again.");

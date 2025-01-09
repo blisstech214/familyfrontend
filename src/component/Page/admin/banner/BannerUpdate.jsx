@@ -49,7 +49,6 @@ function BannerUpdate({ bannerId, onClose }) {
     updatedData.append("titles", formData.titles);
     updatedData.append("descriptions", formData.descriptions);
 
-    // Append new image if present, otherwise append existing image URL
     if (formData.image) {
       updatedData.append("image", formData.image);
     } else if (formData.existingImage) {
@@ -58,7 +57,7 @@ function BannerUpdate({ bannerId, onClose }) {
 
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_API_BASE_URL}/${bannerId.bannerId}/item/${bannerId.itemId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/updateBanner/${bannerId.bannerId}/item/${bannerId.itemId}`,
         updatedData,
         {
           headers: {
@@ -68,7 +67,7 @@ function BannerUpdate({ bannerId, onClose }) {
       );
 
       if (response.data?.data) {
-        onClose(); // Close the modal after successful update
+        onClose();
       } else {
         alert("Unexpected API response, please check.");
       }
