@@ -1,12 +1,12 @@
-
 import React, { useState, useEffect } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolledDown, setIsScrolledDown] = useState(false);
-
+  const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -40,6 +40,9 @@ function Navbar() {
         <div className="hidden md:flex items-center font-semibold gap-10 text-gray-700">
           <ScrollLink
             to="home"
+            onClick={() => {
+              navigate("/");
+            }}
             smooth={true}
             duration={500}
             className="hover:text-blue-500 transition duration-300 cursor-pointer"
@@ -49,6 +52,9 @@ function Navbar() {
           <ScrollLink
             to="sectionC"
             smooth={true}
+            onClick={() => {
+              navigate("/");
+            }}
             duration={500}
             className="hover:text-blue-500 transition duration-300 cursor-pointer"
           >
@@ -57,6 +63,9 @@ function Navbar() {
           <ScrollLink
             to="sectionD"
             smooth={true}
+            onClick={() => {
+              navigate("/");
+            }}
             duration={500}
             className="hover:text-blue-500 transition duration-300 cursor-pointer"
           >
@@ -65,6 +74,9 @@ function Navbar() {
           <ScrollLink
             to="sectionK"
             smooth={true}
+            onClick={() => {
+              navigate("/");
+            }}
             duration={500}
             className="hover:text-blue-500 transition duration-300 cursor-pointer"
           >

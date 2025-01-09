@@ -1,86 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import React Icons
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const json = require("../../../state.json");
-console.log(Object.keys(json), "qwefd");
 
 function Registration() {
-  const styles = {
-    container: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "flex-start",
-      minHeight: "100vh",
-      fontFamily: "Arial, sans-serif",
-      backgroundColor: "#cce4f7",
-      paddingTop: "80px", // Ensure space between navbar and form
-      paddingBottom: "40px", // Add space at the bottom
-    },
-    formContainer: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "flex-start",
-      width: "100%",
-      padding: "10px",
-    },
-    form: {
-      backgroundColor: "white",
-      padding: "30px",
-      borderRadius: "10px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      width: "100%",
-      maxWidth: "500px", // Reduce width for better alignment
-      textAlign: "center",
-    },
-    input: {
-      width: "100%",
-      padding: "12px",
-      margin: "10px 0",
-      borderRadius: "8px",
-      border: "1px solid #ccc",
-      fontSize: "16px",
-    },
-    eyeIcon: {
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      cursor: "pointer",
-    },
-    inputContainer: {
-      position: "relative",
-    },
-    button: {
-      width: "100%",
-      padding: "12px",
-      marginTop: "20px",
-      borderRadius: "8px",
-      border: "none",
-      backgroundColor: "#2563EB",
-      color: "white",
-      fontSize: "16px",
-      cursor: "pointer",
-    },
-    heading: {
-      fontSize: "24px", // Adjust font size for better scaling
-      marginBottom: "20px",
-      color: "#333",
-      fontWeight: "bold",
-    },
-    errorMessage: {
-      color: "red",
-      fontSize: "14px",
-      marginTop: "5px",
-    },
-    loginLink: {
-      marginTop: "20px",
-      fontSize: "14px",
-      color: "#555",
-    },
-  };
-
   const initialValue = {
     FirstName: "",
     LastName: "",
@@ -94,12 +19,11 @@ function Registration() {
   };
   const [Change, setChange] = useState(initialValue);
   const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Track password visibility
+  const [showPassword, setShowPassword] = useState(false);
   const [stateOptions, setStateOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch states when country is selected
   useEffect(() => {
     if (Change.Country) {
       axios
@@ -108,9 +32,7 @@ function Registration() {
         .catch(() => setStateOptions([]));
     }
   }, [Change.Country]);
-  console.log(process.env.REACT_APP_API_BASE_URL, "localhost");
 
-  // Fetch cities when state is selected
   useEffect(() => {
     if (Change.State) {
       axios
@@ -119,7 +41,6 @@ function Registration() {
         .catch(() => setCityOptions([]));
     }
   }, [Change.State]);
-  console.log(process.env.REACT_APP_API_BASE_URL, "localhost");
 
   const onChange = (e) => {
     setChange((prev) => ({
@@ -148,13 +69,12 @@ function Registration() {
 
     setErrorMessage("");
 
-    // Submit the form data to your backend
     axios
       .post(`${process.env.REACT_APP_API_BASE_URL}/register`, Change)
       .then(() => {
         setChange(initialValue);
         alert(
-          "Your Registration is successfully completed , wait for the admin approval "
+          "Your Registration is successfully completed, wait for the admin approval."
         );
         navigate("/");
       })
@@ -179,132 +99,153 @@ function Registration() {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.formContainer}>
-        <form style={styles.form} onSubmit={Onclick}>
-          <h2 style={styles.heading}>Create an Account</h2>
-
-          <input
-            type="text"
-            placeholder="First Name"
-            name="FirstName"
-            style={styles.input}
-            required
-            onChange={onChange}
-            value={Change.FirstName}
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            name="LastName"
-            style={styles.input}
-            required
-            onChange={onChange}
-            value={Change.LastName}
-          />
-          <input
-            type="text"
-            placeholder="User Name"
-            name="UserName"
-            style={styles.input}
-            required
-            onChange={onChange}
-            value={Change.UserName}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            name="Email"
-            style={styles.input}
-            required
-            onChange={onChange}
-            value={Change.Email}
-          />
-
-          {/* Password Input with Eye Icon */}
-          <div style={styles.inputContainer}>
+    <div className="flex justify-center items-start min-h-screen bg-blue-100 mt-16 pt-20 pb-10">
+      <div className="bg-white p-8 rounded-lg shadow-lg min-w-min">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Create an Account
+        </h2>
+        <form onSubmit={Onclick} className="space-y-4">
+          {/* Name Pair */}
+          <div className="grid grid-cols-2 gap-4">
             <input
-              type={showPassword ? "text" : "password"} // Show password when true
-              placeholder="Password"
-              name="Password"
-              style={styles.input}
+              type="text"
+              name="FirstName"
+              placeholder="First Name"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
+              value={Change.FirstName}
               onChange={onChange}
-              value={Change.Password}
             />
-            {showPassword ? (
-              <FaEyeSlash
-                style={styles.eyeIcon}
-                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
-              />
-            ) : (
-              <FaEye
-                style={styles.eyeIcon}
-                onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
-              />
-            )}
+            <input
+              type="text"
+              name="LastName"
+              placeholder="Last Name"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+              value={Change.LastName}
+              onChange={onChange}
+            />
           </div>
 
-          <input
-            type="text"
-            placeholder="Pincode"
-            name="Pincode"
-            style={styles.input}
-            onChange={onChange}
-            value={Change.Pincode}
-          />
-          <select
-            name="Country"
-            style={styles.input}
-            onChange={onChange}
-            value={Change.Country}
-            required
+          {/* Username and Email Pair */}
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="text"
+              name="UserName"
+              placeholder="User Name"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+              value={Change.UserName}
+              onChange={onChange}
+            />
+            <input
+              type="email"
+              name="Email"
+              placeholder="Email"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+              value={Change.Email}
+              onChange={onChange}
+            />
+          </div>
+
+          {/* Password and Pincode Pair */}
+          <div className="grid grid-cols-2 gap-4 relative">
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="Password"
+                placeholder="Password"
+                className="p-3 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+                value={Change.Password}
+                onChange={onChange}
+              />
+              <span
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            </div>
+            <input
+              type="text"
+              name="Pincode"
+              placeholder="Pincode"
+              className="p-3 border rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={Change.Pincode}
+              onChange={onChange}
+            />
+          </div>
+
+          {/* Country and State Pair */}
+          <div className="grid grid-cols-2 gap-4">
+            <select
+              name="Country"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={Change.Country}
+              onChange={onChange}
+              required
+            >
+              <option value="">Select Country</option>
+              <option value="US">United States</option>
+              <option value="IN">India</option>
+            </select>
+
+            <select
+              name="State"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={Change.State}
+              onChange={onChange}
+              required
+            >
+              <option value="">Select State</option>
+              {Object.keys(json).map((state) => (
+                <option key={state} value={state}>
+                  {state}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* City Pair */}
+          <div className="grid grid-cols-2 gap-4">
+            <select
+              name="City"
+              className="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={Change.City}
+              onChange={onChange}
+              required
+            >
+              <option value="">Select City</option>
+              {json[Change.State]?.map((city) => (
+                <option key={city} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+            {/* Placeholder for symmetry */}
+            <div />
+          </div>
+
+          {/* Error Message */}
+          {errorMessage && (
+            <p className="text-red-600 text-sm mt-2">{errorMessage}</p>
+          )}
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Select Country</option>
-            {/* You would populate countries dynamically */}
-            <option value="US">United States</option>
-            <option value="IN">India</option>
-            {/* Add more countries as needed */}
-          </select>
-
-          <select
-            name="State"
-            style={styles.input}
-            onChange={onChange}
-            value={Change.State}
-            required
-          >
-            <option value="">Select State</option>
-            {Object.keys(json).map((state) => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
-
-          <select
-            name="City"
-            style={styles.input}
-            onChange={onChange}
-            value={Change.City}
-            required
-          >
-            <option value="">Select City</option>
-            {json[Change.State]?.map((city) => (
-              <option key={city} value={city}>
-                {city}
-              </option>
-            ))}
-          </select>
-
-          {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
-
-          <button type="submit" style={styles.button}>
             Register
           </button>
 
-          <p style={styles.loginLink}>
-            Already have an account? <Link to="/login">Login</Link>
+          <p className="text-sm text-gray-600 mt-4 text-center">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-600">
+              Login
+            </Link>
           </p>
         </form>
       </div>
