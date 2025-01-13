@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import SectionA from "./SectionA";
 import SectionB from "./SectionB";
 import SectionC from "./SectionC";
@@ -13,12 +13,18 @@ import SectionK from "./SectionK";
 import Footer from "../../main/Footer";
 
 function HomeMain() {
+  const sectionBRef = useRef(null);
+
+  const scrollToSectionB = () => {
+    sectionBRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div id="home" className="space-y-28">
       <div id="sectionA">
-        <SectionA />
+        <SectionA scrollToSectionB={scrollToSectionB} />
       </div>
-      <div id="sectionB">
+      <div id="sectionB" ref={sectionBRef}>
         <SectionB />
       </div>
       <div id="sectionC">
@@ -39,9 +45,9 @@ function HomeMain() {
       </div>
 
       {/* Section F */}
-      <div>
+      {/* <div>
         <SectionF />
-      </div>
+      </div> */}
 
       {/* Section H */}
       <div>

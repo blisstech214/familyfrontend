@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-scroll";
-
+import { NavLink } from "react-router-dom";
 function Footer() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -141,12 +141,18 @@ function Footer() {
 
           {/* Call-to-Actions */}
           <div className="space-y-4 flex flex-col md:w-1/3">
-            <button className="w-full md:w-auto p-3 px-5 text-lg font-semibold text-white bg-blue-600 rounded-full hover:bg-blue-500 shadow-lg transition duration-300">
+            <NavLink
+              to="/reg"
+              className="w-full md:w-auto text-center cursor-pointer p-3 px-5 text-lg font-semibold text-white bg-blue-600 rounded-full hover:bg-blue-700 shadow-lg"
+            >
               Join the community
-            </button>
-            <button className="w-full md:w-auto p-3 px-5 text-lg font-semibold text-blue-600 border-2 border-blue-600 rounded-full hover:bg-blue-500 hover:text-white shadow-lg transition duration-300">
+            </NavLink>
+            <NavLink
+              to="/login"
+              className="w-full md:w-auto p-3 px-5 cursor-pointer text-center text-lg font-semibold text-blue-600 border-2 border-blue-600 rounded-full hover:bg-blue-700 hover:text-white shadow-lg"
+            >
               Explore Families
-            </button>
+            </NavLink>
           </div>
         </div>
 

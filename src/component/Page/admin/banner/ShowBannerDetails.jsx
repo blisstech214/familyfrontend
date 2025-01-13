@@ -47,7 +47,7 @@ function ShowBannerDetails() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-center mb-6">Banner Details</h1>
+      <h1 className="text-2xl font-bold mb-6">Banner Details</h1>
 
       {error && <p className="text-red-600 text-center">{error}</p>}
 
@@ -55,7 +55,7 @@ function ShowBannerDetails() {
         banners.map((card) => (
           <div
             key={card._id}
-            className="flex flex-wrap gap-5 justify-center mb-6"
+            className="flex flex-wrap gap-5  mb-6"
           >
             {card.items &&
               Array.isArray(card.items) &&

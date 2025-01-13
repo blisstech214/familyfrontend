@@ -78,10 +78,35 @@ function Searching() {
     fetchFamilyMembers(family._id);
   };
 
+  const resetSelection = () => {
+    setSelectedFamilyGroup(null);
+    setFamilyMembers([]);
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center gap-10 p-4 md:p-6">
+    <div className="flex flex-col items-center justify-center p-4 md:p-6">
+      {/* Breadcrumbs */}
+      <div className="w-full max-w-6xl gap-2 mb-6">
+        {selectedFamilyGroup ? (
+          <div className=" text-gray-600">
+            <button
+              onClick={resetSelection}
+              className="text-blue-600 hover:underline"
+            >
+              All Families
+            </button>
+            <span className="font-semibold"> / </span>
+            <span className="font-semibold text-gray-800">
+              {selectedFamilyGroup.UserName || "N/A"}
+            </span>
+          </div>
+        ) : (
+          <div className="text-gray-600 font-medium">Search Results</div>
+        )}
+      </div>
+
       {/* Search Form */}
-      <div className="bg-white rounded-lg p-4 md:p-8 w-full max-w-4xl">
+      <div className="bg-white rounded-lg p-4 md:p-8 w-full">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Search by Name, State, and City
         </h2>
@@ -130,106 +155,90 @@ function Searching() {
         </button>
       </div>
 
-      {/* Family Groups and Members */}
-      <div className="flex flex-wrap w-full max-w-6xl">
-        {/* Selected Family Card and Members */}
-        {selectedFamilyGroup && (
-          <div className="flex flex-col md:flex-row w-full mb-6">
-            {/* Selected Family Card */}
-            <div className="w-full md:w-1/3 flex items-center justify-center mb-4 md:mb-0">
-              <div className="p-4 bg-blue-50 rounded-lg shadow-md border-2 border-blue-600 flex items-center gap-4">
-                <img
-                  src={
-                    selectedFamilyGroup.image ||
-                    "https://via.placeholder.com/150"
-                  }
-                  alt="Selected Family"
-                  className="object-cover rounded-full w-24 h-24"
-                />
-                <div>
-                  <h3 className="text-lg font-semibold text-blue-800">
-                    {selectedFamilyGroup.UserName || "N/A"}
-                  </h3>
-                  <p className="text-gray-600">{selectedFamilyGroup.City}</p>
-                </div>
+      {/* Family Groups */}
+      <div className="flex flex-wrap w-full gap-4 overflow-y-auto max-h-[400px]">
+        {" "}
+        {/* Added max height and scroll */}
+        {!selectedFamilyGroup &&
+          filteredData.map((family) => (
+            <div
+              key={family._id}
+              className="p-4 bg-blue-50 rounded-lg shadow-md cursor-pointer flex flex-col items-center gap-4 transition-transform duration-300 w-full sm:w-1/2 md:w-1/4 lg:w-1/5"
+              onClick={() => handleFamilyGroupClick(family)}
+            >
+              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                {family.UserName?.charAt(0).toUpperCase() || "U"}
               </div>
-            </div>
-
-            {/* Family Members Table */}
-            <div className="w-full md:flex-grow bg-white rounded-lg shadow-md p-4 md:p-6 overflow-x-auto">
-              <h3 className="text-xl font-bold mb-4 text-blue-800">
-                Family Members of {selectedFamilyGroup.UserName}
+              <h3 className="text-lg font-semibold text-blue-800">
+                {family.UserName || "N/A"}
               </h3>
-              <table className="table-auto w-full border-collapse border border-gray-300 text-sm md:text-base">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className="px-2 py-2 border">Name</th>
-                    <th className="px-2 py-2 border">DOB</th>
-                    <th className="px-2 py-2 border">Gender</th>
-                    <th className="px-2 py-2 border">Marital Status</th>
-                    <th className="px-2 py-2 border">Education</th>
-                    <th className="px-2 py-2 border">Employment Status</th>
-                    <th className="px-2 py-2 border">Contact Phone</th>
-                    <th className="px-2 py-2 border">Occupation</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {familyMembers.length > 0 ? (
-                    familyMembers.map((member) => (
-                      <tr key={member._id}>
-                        <td className="px-2 py-2 border">{member.name}</td>
-                        <td className="px-2 py-2 border">{member.dob}</td>
-                        <td className="px-2 py-2 border">{member.gender}</td>
-                        <td className="px-2 py-2 border">
-                          {member.maritalStatus}
-                        </td>
-                        <td className="px-2 py-2 border">{member.education}</td>
-                        <td className="px-2 py-2 border">
-                          {member.employmentStatus}
-                        </td>
-                        <td className="px-2 py-2 border">
-                          {member.contactPhone}
-                        </td>
-                        <td className="px-2 py-2 border">
-                          {member.occupation}
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="8" className="text-center py-4">
-                        No family members found.
+              <p className="text-gray-600">{family.City}</p>
+            </div>
+          ))}
+        {/* Family Members */}
+        {selectedFamilyGroup && (
+          <div className="w-full bg-white rounded-lg shadow-md p-4">
+            <h3 className="text-xl font-bold mb-4 text-blue-800">
+              Family Members of {selectedFamilyGroup.UserName}
+            </h3>
+            <table className="table-auto w-full border-collapse border border-gray-300">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="px-2 py-2 border">Image</th>
+
+                  <th className="px-2 py-2 border">Name</th>
+                  <th className="px-2 py-2 border">DOB</th>
+                  <th className="px-2 py-2 border">Gender</th>
+                  <th className="px-2 py-2 border">Relations</th>
+
+                  <th className="px-2 py-2 border">Marital Status</th>
+                  <th className="px-2 py-2 border">Education</th>
+                  <th className="px-2 py-2 border">Occupation</th>
+                  <th className="px-2 py-2 border">Contact Number</th>
+                </tr>
+              </thead>
+              <tbody>
+                {familyMembers.length > 0 ? (
+                  familyMembers.map((member) => (
+                    <tr key={member._id}>
+                      <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                        <div className="flex justify-center items-center">
+                          <img
+                            src={
+                              member.image
+                                ? `${process.env.REACT_APP_API_BASE_URL}${member.image}`
+                                : "https://via.placeholder.com/150"
+                            }
+                            alt={member.name || "Family Member"}
+                            className="object-cover rounded-full w-16 h-16"
+                          />
+                        </div>
+                      </td>
+                      <td className="px-2 py-2 border">{member.name}</td>
+                      <td className="px-2 py-2 border">{member.dob}</td>
+                      <td className="px-2 py-2 border">{member.gender}</td>
+                      <td className="px-2 py-2 border">{member.relations}</td>
+                      <td className="px-2 py-2 border">
+                        {member.maritalStatus}
+                      </td>
+                      <td className="px-2 py-2 border">{member.education}</td>
+                      <td className="px-2 py-2 border">{member.occupation}</td>
+                      <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                        {member.contactPhone}
                       </td>
                     </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="6" className="text-center py-4">
+                      No family members found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         )}
-
-        {/* Other Family Cards */}
-        <div className="flex flex-wrap gap-4 justify-center items-center w-full">
-          {filteredData
-            .filter((family) => family._id !== selectedFamilyGroup?._id)
-            .map((family) => (
-              <div
-                key={family._id}
-                className="p-4 bg-blue-50 rounded-lg shadow-md cursor-pointer flex items-center gap-4 transition-transform duration-300 w-full sm:w-1/2 md:w-1/4"
-                onClick={() => handleFamilyGroupClick(family)}
-              >
-                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                  {family.UserName?.charAt(0).toUpperCase() || "U"}
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-blue-800">
-                    {family.UserName || "N/A"}
-                  </h3>
-                  <p className="text-gray-600">{family.City}</p>
-                </div>
-              </div>
-            ))}
-        </div>
       </div>
     </div>
   );

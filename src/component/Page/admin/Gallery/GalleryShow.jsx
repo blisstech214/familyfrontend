@@ -89,8 +89,10 @@ function GalleryShow() {
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
+            <h1 className="text-2xl font-bold mb-6">Gallery Updates</h1>
+
       {/* Category Selection */}
-      <div className="flex flex-wrap justify-center gap-4 mb-8">
+      <div className="flex flex-wrap justify-start gap-4 mb-8">
         {["all", "cricket", "family", "events"].map((category) => (
           <button
             key={category}
@@ -118,7 +120,7 @@ function GalleryShow() {
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : images.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 place-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 place-items-center">
           {images.map((image) => (
             <div
               key={image._id}

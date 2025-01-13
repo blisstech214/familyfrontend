@@ -43,17 +43,17 @@ const FamilyMembers = ({ id }) => {
                       <th className="px-4 py-2 border text-left">Name</th>
                       <th className="px-4 py-2 border text-left">DOB</th>
                       <th className="px-4 py-2 border text-left">Gender</th>
+                      <th className="px-4 py-2 border text-left">Relations</th>
+
                       <th className="px-4 py-2 border text-left">
                         Marital Status
                       </th>
                       <th className="px-4 py-2 border text-left">Education</th>
-                      <th className="px-4 py-2 border text-left">
-                        Employment Status
-                      </th>
+
+                      <th className="px-4 py-2 border text-left">Occupation</th>
                       <th className="px-4 py-2 border text-left">
                         Contact Phone
                       </th>
-                      <th className="px-4 py-2 border text-left">Occupation</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -79,19 +79,20 @@ const FamilyMembers = ({ id }) => {
                             {customer.gender}
                           </td>
                           <td className="px-4 py-2 border">
+                            {customer.relations}
+                          </td>
+                          <td className="px-4 py-2 border">
                             {customer.maritalStatus}
                           </td>
                           <td className="px-4 py-2 border">
                             {customer.education}
                           </td>
+
                           <td className="px-4 py-2 border">
-                            {customer.employmentStatus}
+                            {customer.occupation}
                           </td>
                           <td className="px-4 py-2 border">
                             {customer.contactPhone}
-                          </td>
-                          <td className="px-4 py-2 border">
-                            {customer.occupation}
                           </td>
                         </tr>
                       ))
@@ -148,7 +149,7 @@ const FamilyMembers = ({ id }) => {
                         <strong>Education:</strong> {customer.education}
                       </div>
                       <div>
-                        <strong>Employment:</strong> {customer.employmentStatus}
+                        <strong>Relations:</strong> {customer.relations}
                       </div>
                       <div>
                         <strong>Phone:</strong> {customer.contactPhone}

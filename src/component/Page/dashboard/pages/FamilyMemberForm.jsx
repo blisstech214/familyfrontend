@@ -13,11 +13,11 @@ function FamilyMemberForm(props) {
     gender: "",
     maritalStatus: "",
     education: "",
-    employmentStatus: "",
     contactEmail: "",
     contactPhone: "",
     occupation: "",
     image: "",
+    relations: "", // Added relations field
   };
   const [formData, setFormData] = useState(initialMem);
 
@@ -68,7 +68,6 @@ function FamilyMemberForm(props) {
     console.log(formDataToSubmit, "datasubmit");
     debugger;
     axios
-
       .post(
         `${process.env.REACT_APP_API_BASE_URL}/familyMemForm`,
         formDataToSubmit,
@@ -183,12 +182,13 @@ function FamilyMemberForm(props) {
           </select>
         </div>
 
-        {/* Education Level */}
+        {/* Education Level (Text Input) */}
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2" htmlFor="education">
             Education Level
           </label>
-          <select
+          <input
+            type="text"
             id="education"
             name="education"
             value={formData.education}
@@ -196,37 +196,7 @@ function FamilyMemberForm(props) {
             aria-label="Education Level"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
-          >
-            <option value="">Select Education Level</option>
-            <option value="High School">High School</option>
-            <option value="College Graduate">College Graduate</option>
-            <option value="Postgraduate">Postgraduate</option>
-          </select>
-        </div>
-
-        {/* Employment Status */}
-        <div className="mb-4">
-          <label
-            className="block text-sm font-medium mb-2"
-            htmlFor="employmentStatus"
-          >
-            Employment Status
-          </label>
-          <select
-            id="employmentStatus"
-            name="employmentStatus"
-            value={formData.employmentStatus}
-            onChange={handleChange}
-            aria-label="Employment Status"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            required
-          >
-            <option value="">Select Employment Status</option>
-            <option value="Employed">Employed</option>
-            <option value="Self-employed">Self-employed</option>
-            <option value="Unemployed">Unemployed</option>
-            <option value="Student">Student</option>
-          </select>
+          />
         </div>
 
         {/* Contact Email */}
@@ -275,7 +245,7 @@ function FamilyMemberForm(props) {
             className="block text-sm font-medium mb-2"
             htmlFor="occupation"
           >
-            Occupation (Optional)
+            Occupation
           </label>
           <input
             type="text"
@@ -289,7 +259,22 @@ function FamilyMemberForm(props) {
           />
         </div>
 
-        {/* Other form fields... */}
+        {/* Relations (Text Input) */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-2" htmlFor="relations">
+            Relations
+          </label>
+          <input
+            type="text"
+            id="relations"
+            name="relations"
+            value={formData.relations}
+            onChange={handleChange}
+            aria-label="Relations"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            required
+          />
+        </div>
 
         {/* Image Upload */}
         <div className="mb-4">
@@ -306,6 +291,7 @@ function FamilyMemberForm(props) {
           />
           <span className="text-[12px]">Image should be less than 3MB </span>
         </div>
+
         {/* Display Image Preview */}
         {imageFile && (
           <div className="mb-4">

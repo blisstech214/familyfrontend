@@ -67,7 +67,7 @@ function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-blue-100 p-4">
+    <div id="login" className="flex min-h-screen items-center justify-center bg-blue-100 p-4">
       <div className="w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
         <form
           onSubmit={onSubmit}

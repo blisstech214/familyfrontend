@@ -68,7 +68,7 @@ function Families() {
         <span
           className={`cursor-pointer text-blue-500 hover:underline ${
             !showFamilyDetails ? "font-bold" : ""
-          } text-sm sm:text-base md:text-lg`}
+          } text-xs sm:text-sm md:text-base lg:text-lg`}
           onClick={handleBreadcrumbClick}
         >
           Families
@@ -76,7 +76,7 @@ function Families() {
         {showFamilyDetails && (
           <>
             <span className="text-gray-400">/</span>
-            <span className="text-gray-800 font-bold text-sm sm:text-base md:text-lg">
+            <span className="text-gray-800 font-bold text-xs sm:text-sm md:text-base lg:text-lg">
               Family Member Details
             </span>
           </>
@@ -85,42 +85,40 @@ function Families() {
       <hr className="border-gray-300 mb-4" /> {/* Horizontal Line */}
       {/* Conditional Search Bar */}
       {!showFamilyDetails && (
-        <div className="flex justify-center px-7 items-center mb-4">
-          <div className="relative w-full max-w-xl">
+        <div className="flex justify-center px-3 sm:px-7 items-center mb-4">
+          <div className="relative w-full max-w-md sm:max-w-xl">
             <input
               type="text"
               value={searchTerm}
               onChange={handleSearch}
               placeholder="Search..."
-              className="w-full py-3 pl-10 pr-4 bg-ab rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base md:text-lg"
+              className="w-full py-2 sm:py-3 pl-10 pr-4 bg-ab rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm md:text-base"
             />
-            <FaSearch className="absolute left-4 top-3 text-gray-500 text-sm sm:text-base md:text-lg" />
+            <FaSearch className="absolute left-3 sm:left-4 top-2 sm:top-3 text-gray-500 text-xs sm:text-sm md:text-base" />
           </div>
         </div>
       )}
       {/* Content - Conditional Rendering */}
       {showFamilyDetails ? (
-        // Family Member Details in a Table
         <FamilyMembers id={selectedUserId} />
       ) : (
-        // Families List in Grid Layout
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-4">
           {filteredFamilies.map((member, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-between cursor-pointer bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
+              className="flex flex-col items-center justify-between cursor-pointer bg-white p-3 sm:p-4 rounded-lg shadow-md hover:shadow-xl transition-all duration-300"
               onClick={() => handleFamilyClick(member._id)}
             >
               {/* Family Card */}
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-base text-white md:text-xl">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-500 rounded-full flex items-center justify-center text-sm text-white sm:text-base md:text-xl">
                 {member.UserName?.charAt(0).toUpperCase() || "U"}
               </div>
-              <span className="font-medium text-gray-800 text-sm sm:text-base md:text-lg mt-2">
+              <span className="font-medium text-gray-800 text-xs sm:text-sm md:text-base mt-2">
                 {member.UserName || "Unknown User"}
               </span>
               <button
                 onClick={() => handleDelete(index)}
-                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-all mt-4 text-sm sm:text-base md:text-lg"
+                className="bg-red-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-md hover:bg-red-600 transition-all mt-3 sm:mt-4 text-xs sm:text-sm md:text-base"
               >
                 Delete
               </button>

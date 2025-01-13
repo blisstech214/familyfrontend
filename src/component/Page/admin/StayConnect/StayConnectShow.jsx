@@ -46,8 +46,11 @@ function StayConnectShow() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="min-h-screen bg-gray-100 p-5">
+      <h1 className="text-2xl font-bold mb-6 text-center sm:text-left">
+        Event Updates
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {cardData.length > 0 &&
           cardData.map(
             (card) =>
@@ -57,7 +60,7 @@ function StayConnectShow() {
               card.items.map((item) => (
                 <div
                   key={item._id || item.itemId}
-                  className="p-4 bg-white shadow-md rounded-lg border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-full w-80 min-h-[350px] max-h-[400px]"
+                  className="p-4 bg-white shadow-md rounded-lg border border-gray-200 hover:shadow-lg transition-all duration-300 flex flex-col justify-between h-full w-full sm:w-72 md:w-80"
                 >
                   <h3 className="text-xl text-center font-bold bg-blue-600 text-white py-2 rounded-md flex-grow-0">
                     {item.title}

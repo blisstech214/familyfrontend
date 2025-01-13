@@ -33,12 +33,12 @@ function UserReject() {
             rejectedUsers.map((user) => (
               <div
                 key={user._id}
-                className="bg-white p-4 border border-gray-300 rounded-lg shadow-md"
+                className="bg-white p-4 border border-gray-300 rounded-sm"
               >
-                <h3 className="text-lg font-semibold">
+                <h3 className="md:text-lg text-sm font-semibold">
                   {user.FirstName} {user.LastName}
                 </h3>
-                <p className="text-gray-600">{user.Email}</p>
+                <p className="text-gray-600 text-sm">{user.Email}</p>
                 <button className="bg-red-600 text-white px-4 py-2 mt-4 rounded hover:bg-red-700">
                   Rejected
                 </button>

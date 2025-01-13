@@ -99,7 +99,7 @@ function Registration() {
   };
 
   return (
-    <div className="flex justify-center items-start min-h-screen bg-blue-100 mt-16 pt-20 pb-10">
+    <div id="reg" className="flex justify-center items-start min-h-screen bg-blue-100 mt-16 pt-20 pb-10">
       <div className="bg-white p-8 rounded-lg shadow-lg min-w-min">
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Create an Account

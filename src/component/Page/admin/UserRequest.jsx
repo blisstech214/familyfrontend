@@ -68,18 +68,18 @@ function UserRequest() {
   }
 
   return (
-    <div className="mx-auto mt-5 p-2 sm:p-4 md:p-6 lg:max-w-5xl">
+    <div className="mx-auto mt-5 p-2 sm:p-4 ">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {users.map((user) => (
           <div
             key={user._id}
-            className="bg-white p-4 border border-gray-300 rounded-lg shadow-md"
+            className="bg-white p-4 border border-gray-300 rounded-sm"
           >
-            <h3 className="text-lg font-semibold">
+            <h3 className="md:text-lg text-sm font-semibold">
               {user.FirstName} {user.LastName}
             </h3>
-            <p className="text-gray-600">{user.Email}</p>
-            <div className="mt-4 flex justify-end gap-4">
+            <p className="text-gray-600 text-sm">{user.Email}</p>
+            <div className="mt-4 flex flex-col sm:flex-row justify-start gap-4">
               <button
                 onClick={() => handleApprove(user._id)}
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"

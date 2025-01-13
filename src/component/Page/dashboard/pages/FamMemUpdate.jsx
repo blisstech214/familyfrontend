@@ -22,18 +22,17 @@ function FamMemUpdate(props) {
   const [member, setMember] = useState(initialMem);
   const [isFormVisible, setIsFormVisible] = useState(true); // State to control form visibility
 
-  // Handle image file input change
-
+  // Fetch member data when the component mounts or the id changes
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_BASE_URL}/getById/${id}`
-        ); // Replace with your actual endpoint
+          `${process.env.REACT_APP_API_BASE_URL}/getById/${id}` // Replace with your actual endpoint
+        );
         const imageUrl = `${process.env.REACT_APP_API_BASE_URL}${res.data.data.image}`; // Assuming the base URL is set in your environment variables
         setMember({
           ...res.data.data,
-          image: imageUrl, // Set the full image URL
+          image: imageUrl, // Set the full image URL for preview
         });
       } catch (error) {
         console.error("Error fetching member data:", error);
@@ -42,6 +41,7 @@ function FamMemUpdate(props) {
 
     fetchMemberData();
   }, [id]);
+
   // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -50,17 +50,23 @@ function FamMemUpdate(props) {
       [name]: value,
     }));
   };
+
+  // Handle image file input change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Append the file directly to the formData
+      // Create a temporary URL for the selected image file
+      const imageUrl = URL.createObjectURL(file);
+
+      // Set the image URL to state
       setMember((prevState) => ({
         ...prevState,
-        image: file, // Store the file object instead of the base64 string
+        image: imageUrl, // Store the temporary URL for preview
       }));
     }
   };
 
+  // Handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -77,8 +83,8 @@ function FamMemUpdate(props) {
     formData.append("occupation", member.occupation);
 
     // If there's an image, append it as a file object
-    if (member.image) {
-      formData.append("image", member.image); // Use the file object
+    if (member.image && typeof member.image !== "string") {
+      formData.append("image", member.image); // Use the file object if it's a new image
     }
 
     axios
@@ -124,7 +130,7 @@ function FamMemUpdate(props) {
                 type="text"
                 id="name"
                 name="name"
-                value={member && member.name}
+                value={member.name}
                 onChange={handleChange}
                 aria-label="Full Name"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -285,7 +291,7 @@ function FamMemUpdate(props) {
                 className="block text-sm font-medium mb-2"
                 htmlFor="occupation"
               >
-                Occupation (Optional)
+                Occupation
               </label>
               <input
                 type="text"
@@ -298,54 +304,40 @@ function FamMemUpdate(props) {
               />
             </div>
 
-            {/* Image Upload */}
+            {/* Image */}
             <div className="mb-4">
               <label className="block text-sm font-medium mb-2" htmlFor="image">
-                Upload Image (Optional)
+                Image
               </label>
               <input
                 type="file"
                 id="image"
-                name="image"
-                accept="image/*"
                 onChange={handleImageChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                aria-label="Image"
+                className="w-full px-4 py-2 border text-center border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
+              {/* Image Preview */}
+              {member.image && (
+                <div className="mt-2">
+                  <img
+                    src={member.image}
+                    alt="Preview"
+                    className="w-32 h-32 object-cover  text-center rounded-full"
+                  />
+                </div>
+              )}
             </div>
 
-            {/* Display Image Preview */}
-            {member.image && (
-              <div className="mb-4">
-                <img
-                  src={member.image}
-                  alt="Uploaded Preview"
-                  className="w-32 h-32 object-cover rounded-full mx-auto"
-                />
-              </div>
-            )}
-
-            {/* Submit Button */}
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
-              >
-                Submit
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none"
+            >
+              Update Member
+            </button>
           </form>
         </>
       ) : (
-        <div className="text-center">
-          <h3 className="text-xl font-semibold">Updated Information:</h3>
-          <p>
-            <strong>Name:</strong> {member.name}
-          </p>
-          <p>
-            <strong>Date of Birth:</strong> {member.dob}
-          </p>
-          {/* Display other updated info here */}
-        </div>
+        <p className="text-center text-lg">Family Member Updated!</p>
       )}
     </div>
   );

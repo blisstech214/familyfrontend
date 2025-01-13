@@ -3,8 +3,9 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaArrowRight } from "react-icons/fa";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-const SectionA = () => {
+const SectionA = ({ scrollToSectionB }) => {
   const [slides, setSlides] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -74,10 +75,16 @@ const SectionA = () => {
                       {currentDescription}
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center space-y-3 sm:space-y-0 sm:space-x-4">
-                      <button className="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white font-semibold text-sm sm:text-base rounded-lg hover:bg-blue-700 transition-all duration-300">
+                      <Link
+                        to="/login"
+                        className="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 text-white font-semibold text-sm sm:text-base rounded-lg hover:bg-blue-700 transition-all duration-300"
+                      >
                         Get Started
-                      </button>
-                      <button className="flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 text-blue-600 font-semibold text-sm sm:text-base bg-transparent hover:bg-gray-100 rounded-md">
+                      </Link>
+                      <button
+                        onClick={scrollToSectionB}
+                        className="flex items-center justify-center px-4 py-2 sm:px-6 sm:py-3 text-blue-600 font-semibold text-sm sm:text-base bg-transparent hover:bg-gray-100 rounded-md"
+                      >
                         <span>Explore Now</span>
                         <FaArrowRight className="text-base sm:text-lg ml-2" />
                       </button>

@@ -116,19 +116,19 @@ const FamilyUI = (props) => {
                     <th className="px-2 py-2 sm:px-4 sm:py-2 border">DOB</th>
                     <th className="px-2 py-2 sm:px-4 sm:py-2 border">Gender</th>
                     <th className="px-2 py-2 sm:px-4 sm:py-2 border">
+                      Relations
+                    </th>
+                    <th className="px-2 py-2 sm:px-4 sm:py-2 border">
                       Marital Status
                     </th>
                     <th className="px-2 py-2 sm:px-4 sm:py-2 border">
                       Education
                     </th>
                     <th className="px-2 py-2 sm:px-4 sm:py-2 border">
-                      Employment Status
-                    </th>
-                    <th className="px-2 py-2 sm:px-4 sm:py-2 border">
-                      Contact Phone
-                    </th>
-                    <th className="px-2 py-2 sm:px-4 sm:py-2 border">
                       Occupation
+                    </th>
+                    <th className="px-2 py-2 sm:px-4 sm:py-2 border">
+                      Contact Number
                     </th>
                     <th className="px-2 py-2 sm:px-4 sm:py-2 border">
                       Actions
@@ -137,62 +137,67 @@ const FamilyUI = (props) => {
                 </thead>
                 <tbody>
                   {customers.length > 0 ? (
-                    customers.map((customer) => (
-                      <tr key={customer._id}>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          <div className="flex justify-center items-center">
-                            <img
-                              src={
-                                customer.image
-                                  ? `${process.env.REACT_APP_API_BASE_URL}${customer.image}`
-                                  : "https://via.placeholder.com/150"
-                              }
-                              alt={customer.name || "Family Member"}
-                              className="object-cover rounded-full w-16 h-16"
-                            />
-                          </div>
-                        </td>
+                    customers.map((customer) => {
+                      const imageUrl = customer.image
+                        ? `${process.env.REACT_APP_API_BASE_URL}${customer.image}`
+                        : "https://via.placeholder.com/150";
 
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          {customer.name}
-                        </td>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          {customer.dob}
-                        </td>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          {customer.gender}
-                        </td>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          {customer.maritalStatus}
-                        </td>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          {customer.education}
-                        </td>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          {customer.employmentStatus}
-                        </td>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          {customer.contactPhone}
-                        </td>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border">
-                          {customer.occupation}
-                        </td>
-                        <td className="px-2 py-2 sm:px-4 sm:py-2 border text-center">
-                          <button
-                            className="text-blue-500"
-                            onClick={() => handleEdit(customer._id)}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            className="text-red-500 ml-3"
-                            onClick={() => handleDelete(customer._id)}
-                          >
-                            <FaTrashAlt />
-                          </button>
-                        </td>
-                      </tr>
-                    ))
+                      console.log("Image URL:", imageUrl); // Log the image URL to check
+
+                      return (
+                        <tr key={customer._id}>
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            <div className="flex justify-center items-center">
+                              <img
+                                src={imageUrl}
+                                className="object-cover rounded-full w-16 h-16"
+                                alt={customer.name || "Family Member"}
+                              />
+                            </div>
+                          </td>
+
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            {customer.name}
+                          </td>
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            {customer.dob}
+                          </td>
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            {customer.gender}
+                          </td>
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            {customer.relations}
+                          </td>
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            {customer.maritalStatus}
+                          </td>
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            {customer.education}
+                          </td>
+
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            {customer.occupation}
+                          </td>
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border">
+                            {customer.contactPhone}
+                          </td>
+                          <td className="px-2 py-2 sm:px-4 sm:py-2 border text-center">
+                            <button
+                              className="text-blue-500"
+                              onClick={() => handleEdit(customer._id)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              className="text-red-500 ml-3"
+                              onClick={() => handleDelete(customer._id)}
+                            >
+                              <FaTrashAlt />
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
                   ) : (
                     <tr>
                       <td colSpan="10" className="text-center py-5">
@@ -207,67 +212,71 @@ const FamilyUI = (props) => {
             {/* Mobile View - Card Layout */}
             <div className="sm:hidden">
               {customers.length > 0 ? (
-                customers.map((customer) => (
-                  <div
-                    key={customer._id}
-                    className="border rounded-lg p-4 mb-4 shadow-md"
-                  >
-                    <div className="flex items-center mb-4">
-                      <img
-                        src={
-                          customer.image
-                            ? `${process.env.REACT_APP_API_BASE_URL}${customer.image}`
-                            : "https://via.placeholder.com/150"
-                        }
-                        alt={customer.name || "Family Member"}
-                        className="object-cover rounded-full w-16 h-16 mr-4"
-                      />
-                      <div className="flex flex-col">
-                        <h5 className="font-semibold">{customer.name}</h5>
-                        <p className="text-sm text-gray-500">
-                          {customer.occupation}
-                        </p>
-                      </div>
-                    </div>
+                customers.map((customer) => {
+                  const imageUrl = customer.image
+                    ? `${process.env.REACT_APP_API_BASE_URL}${customer.image}`
+                    : "https://via.placeholder.com/150";
 
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <strong>DOB:</strong> {customer.dob}
-                      </div>
-                      <div>
-                        <strong>Gender:</strong> {customer.gender}
-                      </div>
-                      <div>
-                        <strong>Marital Status:</strong>{" "}
-                        {customer.maritalStatus}
-                      </div>
-                      <div>
-                        <strong>Education:</strong> {customer.education}
-                      </div>
-                      <div>
-                        <strong>Employment:</strong> {customer.employmentStatus}
-                      </div>
-                      <div>
-                        <strong>Phone:</strong> {customer.contactPhone}
-                      </div>
-                    </div>
+                  console.log("Image URL:", imageUrl); // Log the image URL to check
 
-                    <div className="flex justify-between mt-4">
-                      <button
-                        className="text-blue-500"
-                        onClick={() => handleEdit(customer._id)}
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        className="text-red-500"
-                        onClick={() => handleDelete(customer._id)}
-                      >
-                        <FaTrashAlt />
-                      </button>
+                  return (
+                    <div
+                      key={customer._id}
+                      className="border rounded-lg p-4 mb-4 shadow-md"
+                    >
+                      <div className="flex items-center mb-4">
+                        <img
+                          src={imageUrl}
+                          alt={customer.name || "Family Member"}
+                          className="object-cover rounded-full w-16 h-16 mr-4"
+                        />
+                        <div className="flex flex-col">
+                          <h5 className="font-semibold">{customer.name}</h5>
+                          <p className="text-sm text-gray-500">
+                            {customer.occupation}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <strong>DOB:</strong> {customer.dob}
+                        </div>
+                        <div>
+                          <strong>Gender:</strong> {customer.gender}
+                        </div>
+                        <div>
+                          <strong>Marital Status:</strong>{" "}
+                          {customer.maritalStatus}
+                        </div>
+                        <div>
+                          <strong>Education:</strong> {customer.education}
+                        </div>
+                        <div>
+                          <strong>Relations:</strong> {customer.relations}
+                        </div>
+                        <div>
+                          <strong>Phone:</strong> {customer.contactPhone}
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between mt-4">
+                        <button
+                          className="text-blue-500"
+                          onClick={() => handleEdit(customer._id)}
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          className="text-red-500"
+                          onClick={() => handleDelete(customer._id)}
+                        >
+                          <FaTrashAlt />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div className="text-center">No family members found.</div>
               )}
